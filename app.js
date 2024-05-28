@@ -26,7 +26,7 @@ app.get("/posts/:id", async (req, res) => {
   //!store new posts in the ram:
   await client.setEx(`post-${id}`, 30,JSON.stringify(posts.data));
   res.status(200).json({ data: posts.data, msg: "cach miss" }); 
-});
+}); 
  
 const port = 3000;
 app.listen(port, () => {
