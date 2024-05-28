@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.get("/posts", async (req, res) => {
   let posts = null;
-  posts = await client.get("posts", JSON.stringify(posts));
+  posts = await client.get("posts");
   if (posts) {
     return res.status(200).json({
       data: JSON.parse(posts),
