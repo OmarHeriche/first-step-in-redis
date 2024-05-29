@@ -3,76 +3,49 @@ const axios = require("axios");
 const redis = require("redis");
 require("dotenv").config();
 
-const redisHost = process.env.REDIS_HOST || "localhost";
-const redisPort = process.env.REDIS_PORT || 6379;
-
-const client = redis.createClient({
-  host: redisHost,
-  port: redisPort,
-});
+const client = redis.createClient();
+client.connect();
 
 const app = express();
 app.use(express.json());
 
 app.get("/posts", async (req, res) => {
-  try {
-    let posts = await client.get("posts");
-    if (posts) {
-      return res.status(200).json({
-        data: JSON.parse(posts),
-        msj: "hit cache",
-      });
-    }
-    const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
-    posts = response.data;
-    await client.set("posts", JSON.stringify(posts));
-    res.status(200).json({
-      data: posts,
-      msj: "miss cache",
+  let posts = null;
+  posts = await client.get("posts");
+  if (posts) {
+    return res.status(200).json({
+      data: JSON.parse(posts),
+      msj: "hit cach",
     });
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    res.status(500).json({ error: "Error fetching posts" });
   }
+  posts = await axios.get("https://jsonplaceholder.typicode.com/posts");
+  client.set("posts", JSON.stringify(posts.data));
+  res.status(200).json({
+    data: posts.data,
+    msj: "miss cach",
+  });
 });
 
 app.get("/posts/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    let post = await client.get(`post-${id}`);
-    if (post) {
-      return res.status(200).json({
-        msj: "hit cache",
-        data: JSON.parse(post),
-      });
-    }
-    const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
-    post = response.data;
-    await client.set(`post-${id}`, JSON.stringify(post));
-    res.status(200).json({
-      msj: "miss cache",
+  const { id } = req.params;
+  post = null;
+  post = await client.get(`post-${id}`); //! hit the cach
+  if (post) {
+    post = JSON.parse(post);
+    return res.status(200).json({
+      msj: "hit cach",
       data: post,
     });
-  } catch (error) {
-    console.error(`Error fetching post ${id}:`, error);
-    res.status(500).json({ error: `Error fetching post ${id}` });
   }
+  post = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
+  client.set(`post-${id}`, JSON.stringify(post.data)); //! load in the cach
+  res.status(200).json({
+    msj: "miss cach",
+    data: post.data,
+  });
 });
 
-const startServer = async () => {
-  try {
-    client.on("error", function(error) {
-      console.error("Redis connection error:", error);
-    });
-
-    await client.connect();
-    const port = process.env.PORT || 3000;
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  } catch (err) {
-    console.error('Server startup error:', err);
-  }
-};
-
-startServer();
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
