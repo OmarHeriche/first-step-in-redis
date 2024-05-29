@@ -3,7 +3,15 @@ const axios = require("axios");
 const redis = require("redis");
 require("dotenv").config();
 
-const client = redis.createClient();
+const redisHost = process.env.REDIS_HOST || "localhost";
+const redisPort = process.env.REDIS_PORT || 6379;
+
+const client = redis.createClient({
+  socket: {
+    host: redisHost,
+    port: redisPort,
+  },
+});
 
 const app = express();
 app.use(express.json());
