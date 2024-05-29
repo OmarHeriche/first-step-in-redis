@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const redis = require("redis");
+require("dotenv").config();
 
 const client = redis.createClient();
 client.connect();
@@ -25,29 +26,6 @@ app.get("/posts", async (req, res) => {
   });
 });
 
-// app.get("/posts/endPoint_0", async (req, res) => {
-//   let posts = null;
-//   await client.get("posts", async (error, posts) => {
-//     if (error) {
-//       console.log(error);
-//       return;
-//     } else if (posts !== null) {
-//       return res.json({ data: JSON.parse(posts), msj: "cach hit" });
-//     }
-//     posts = await axios.get("https://jsonplaceholder.typicode.com/posts");
-//     client.set("posts", JSON.stringify(posts.data));
-//     res.status(200).json({
-//       data: posts.data,
-//       msj: "miss cach",
-//     });
-//   }).then(data=>{
-//     res.status(200).json({
-//       data: data,
-//       msj: "miss cach",
-//     });
-//   });
-// });
-
 app.get("/posts/:id", async (req, res) => {
   const { id } = req.params;
   post = null;
@@ -55,19 +33,19 @@ app.get("/posts/:id", async (req, res) => {
   if (post) {
     post = JSON.parse(post);
     return res.status(200).json({
-      data: post,
       msj: "hit cach",
+      data: post,
     });
   }
   post = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}`);
   client.set(`post-${id}`, JSON.stringify(post.data)); //! load in the cach
   res.status(200).json({
-    data: post.data,
     msj: "miss cach",
+    data: post.data,
   });
 });
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

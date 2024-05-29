@@ -1,8 +1,8 @@
-<h1>learn redis</h1>
+<h1 style="color: red; text-align: center;">learn redis</h1>
 <p>redis is a key-value store</p>
 <p>it is a no-sql database</p>
 <p>it is an in-memory database</p>
-<h1>IMPORTANT COMMANDS</h1>
+<h1 style="color: red; text-align: center;">IMPORTANT COMMANDS</h1>
 <h2>1)TERMINAL COMMANDS</h2>
 <p>redis-server => to start the redis server</p>
 <p>redis-cli => to start the redis client && access redis</p>
@@ -23,7 +23,7 @@
 </ul>
 <p>EXPIRE key time => to set the time to live of a key</p>
 <p>SETEX key time value => to set the time to live of a key and set the value</p>
-<h1>redis data types</h1>
+<h1 style="color: red; text-align: center;">redis data types</h1>
 <h2>1)list "it will be sooooo useful when it comes to LRU && LFU , build pile/file logics"</h2>
 <p>LPUSH key value => to add a value to the left of the list</p>
 <p>RPUSH key value => to add a value to the right of the list</p>
@@ -43,11 +43,11 @@
 <p>HGETALL key => to get all the field-value pairs</p>
 <p>HDEL key field => to delete a field-value pair</p>
 <p>HEXISTS key field => to check if a field exists</p>
-<h1>NODE / EXPRESS / REDIS</h1>
+<h1 style="color: red; text-align: center;">NODE / EXPRESS / REDIS</h1>
 
 
 
 
 
-<h1>IMPORTANT NOTES</h1>
+<h1 style="color: red; text-align: center;">IMPORTANT NOTES</h1>
 <p>redis returns the values as strings in most of cases</p>
