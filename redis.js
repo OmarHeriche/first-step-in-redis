@@ -1,8 +1,9 @@
 const {Redis} = require('@upstash/redis')
+require('dotenv').config()
 
 const redis = new Redis({
   url: 'https://becoming-gator-53672.upstash.io',
-  token: 'AdGoAAIncDE0MmIzZWZkMjAxNTA0MGQxYThlNjcyMzc3M2ZiZjY4YXAxNTM2NzI',
+  token: process.env.REDIS_TOKEN
 })
 
 console.log("connected to redis")
