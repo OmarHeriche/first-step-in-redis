@@ -5,6 +5,5 @@ const redis = new Redis({
   token: 'AdGoAAIncDE0MmIzZWZkMjAxNTA0MGQxYThlNjcyMzc3M2ZiZjY4YXAxNTM2NzI',
 })
 
-// await redis.set('foo', 'bar');
 console.log("connected to redis")
 module.exports = redis;
