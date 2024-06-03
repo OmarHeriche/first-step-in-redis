@@ -1,10 +1,10 @@
-const Redis = require('ioredis');
-require('dotenv').config();
+const {Redis} = require('@upstash/redis')
 
-const redis = new Redis(process.env.REDIS_URL);
+const redis = new Redis({
+  url: 'https://becoming-gator-53672.upstash.io',
+  token: 'AdGoAAIncDE0MmIzZWZkMjAxNTA0MGQxYThlNjcyMzc3M2ZiZjY4YXAxNTM2NzI',
+})
 
-redis.on('connect', () => {
-    console.log('Connected to Redis');
-});
-
+// await redis.set('foo', 'bar');
+console.log("connected to redis")
 module.exports = redis;

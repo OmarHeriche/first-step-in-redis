@@ -10,9 +10,10 @@ app.get("/posts", async (req, res) => {
   let posts = null;
   posts = await redis.get("posts");
   if (posts) {
+    // console.log(posts)
     return res.status(200).json({
       msj: "hit cach",
-      data: JSON.parse(posts),
+      data: posts,
     });
   }
   posts = await axios.get("https://jsonplaceholder.typicode.com/posts");
@@ -31,7 +32,7 @@ app.get("/posts/:id", async (req, res) => {
   let post = null;
   post = await redis.get(`post-${id}`); //! hit the cach
   if (post) {
-    post = JSON.parse(post);
+    post = post;
     return res.status(200).json({
       msj: "hit cach",
       data: post,
