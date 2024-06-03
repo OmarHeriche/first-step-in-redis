@@ -23,6 +23,9 @@ app.get("/posts", async (req, res) => {
   });
 });
 
+app.get("/",(req,res)=>{
+  res.status(200).send("hello there");
+})
 app.get("/posts/:id", async (req, res) => {
   const { id } = req.params;
   let post = null;
