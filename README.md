@@ -1,8 +1,9 @@
 <!-- add the links -->
 <!-- docker repo link -->
-[redis-docker]: https://hub.docker.com/repository/docker/omarheriche/first-baby-step-in-redis/general
+
+https://hub.docker.com/repository/docker/omarheriche/first-baby-step-in-redis/general
 <!-- api link -->
-[api]:https://first-step-in-redis.onrender.com
+https://first-step-in-redis.onrender.com
 
 <h1 style="color: red; text-align: center;">learn redis</h1>
 <p>redis is a key-value store</p>
